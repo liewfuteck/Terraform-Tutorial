@@ -126,4 +126,19 @@ resource "aws_instance" "web-server-instance" {
     network_interface_id = aws_network_interface.web-server-nic.id
     device_index = 0
   }
+
+  user_data = <<-EOF
+              #!/bin/bash
+              yum install -y docker
+              systemctl enable docker
+              systemctl start docker
+              systemctl enable docker-compose
+              systemctl start docker-compose
+              EOF
 }
+
+# to run the script, use:
+# terraform init
+# terraform plan
+# terraform apply --auto-approve
+# terraform destroy
